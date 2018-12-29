@@ -3,6 +3,7 @@ import numpy as np
 class Sudoku ():
     
     Store =[]
+    boxes =[]
     
     def __init__(self):
         self.grid = input("input sudoku numbers, plese use 0 when empty : ")
@@ -33,6 +34,9 @@ class Sudoku ():
             Sudoku.Store = np.concatenate((g,k,l), axis=0)
         else:
             print("Sudoku not complete")
+            
+    def displayBoard():
+        print(Sudoku.Store)
     
     
     
@@ -43,10 +47,17 @@ class Box(Sudoku):
         self.options = {}
         self.grid = np.reshape(self.grid,(3,3))
         Sudoku.Store.append(self.grid)
+        Sudoku.boxes.append(name)
         
         
         
 boxes =[i for i in range(9)]    
 
-for i in range(3):
+for i in range(9):
     boxes[i] = Box(str(i))
+
+
+Sudoku.reshape()
+Sudoku.displayBoard()
+
+
