@@ -87,7 +87,7 @@ def BoxCheck(boxes):
         numbers = list(numbers[0])
         # print(numbers)
 
-        # each filled number in needs to be removed from every possibility within that box
+        # each filled number needs to be removed from every possibility within that box
         for i in numbers:
 
             for j in range(9):
