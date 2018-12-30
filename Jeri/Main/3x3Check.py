@@ -38,6 +38,10 @@ class Sudoku():
         else:
             print("Sudoku not complete")
 
+    # Function to Display the Board
+    def displayBoard():
+        print(Sudoku.Store)
+
 # Creating a class for each 3x3 Box within the Sudoku. This is  a subclass
 class Box(Sudoku):
 
@@ -59,7 +63,7 @@ for i in range(9):
 
 # Reshape Sudoku store and print
 Sudoku.reshape()
-# print(Sudoku.Store)
+# Sudoku.displayBoard()
 
 # Initialise default options for every box in each box dictionary
 count = 0;
