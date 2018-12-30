@@ -1,80 +1,25 @@
-#using the method of having a full list for each column and then will remove numbers as they appear in that column
+#VERTICAL CHECK
+#all numbers in same column will have same options
 
-#start off by generating a 0-9 list for each column
-lst1 = [1,2,3,4,5,6,7,8,9]
-lst2 = [1,2,3,4,5,6,7,8,9]
-lst3 = [1,2,3,4,5,6,7,8,9]
-lst4 = [1,2,3,4,5,6,7,8,9]
-lst5 = [1,2,3,4,5,6,7,8,9]
-lst6 = [1,2,3,4,5,6,7,8,9]
-lst7 = [1,2,3,4,5,6,7,8,9]
-lst8 = [1,2,3,4,5,6,7,8,9]
-lst9 = [1,2,3,4,5,6,7,8,9]
+#make list of lists frmo 1-9 to show initial options for each column
+xopt = [0 for k in range(9)]
+for i in range(0,9):
+    xopt[i] = {1,2,3,4,5,6,7,8,9}
 
-#the options for all cells in the same column will be the same, so make an empty array with 9 column#
-#this array will contain 9 lists after the code is ran, each corresponding to the possible values that can go in each square
-option = [0 for k in range(9)]
 
-#for the first three columns:
-#loop looks at first number in first row of the first box and removes that number from the full list (i.e. lst1 above) - it does the same with the second and third numbers in that row and they correspond to lists lst2 and lst3 
-#it will then go to the first number of second row of first box and finally third - removing these numbers from the lst1 as well
-# it then jumps to the fourth box (index = 3) since this is the box under the first one and repeats
 for i in range(0,9,3):
     for j in range(0,3):
-        #need to use try and exception because when a square is empty, the code will try and remove a 0 from the original list which would cause an error
-        try:
-            lst1.remove(Sudoku.Store[i][j][0])
-        except(ValueError):
-            pass
-        try:
-            lst2.remove(Sudoku.Store[i][j][1])
-        except(ValueError):
-            pass
-        try:
-            lst3.remove(Sudoku.Store[i][j][2])
-        except(ValueError):
-            pass
-
-#repeat the same process but start with this the 3rd box and then the 5th and finally 8th to do check for columns 4-6
-for i in range(1,9,3):
-    for j in range(0,3):
-        try:
-            lst4.remove(Sudoku.Store[i][j][0])
-        except(ValueError):
-            pass
-        try:
-            lst5.remove(Sudoku.Store[i][j][1])
-        except(ValueError):
-            pass
-        try:
-            lst6.remove(Sudoku.Store[i][j][2])
-        except(ValueError):
-            pass
-#repeat the same process but start with this the 3rd box and then the 6th and finally 9th to do check for columns 7-9      
-for i in range(2,9,3):
-    for j in range(0,3):
-        try:
-            lst7.remove(Sudoku.Store[i][j][0])
-        except(ValueError):
-            pass
-        try:
-            lst8.remove(Sudoku.Store[i][j][1])
-        except(ValueError):
-            pass
-        try:
-            lst9.remove(Sudoku.Store[i][j][2])
-        except(ValueError):
-            pass
-#once all the lists are made, assign each list to the corresponding column of the empty option array
-option[0] = lst1
-option[1] = lst2
-option[2] = lst3
-option[3] = lst4
-option[4] = lst5
-option[5] = lst6
-option[6] = lst7
-option[7] = lst8
-option[8] = lst9
-
-#print option to check
-print(option)
+        for k in range(0,3):
+            try:
+                xopt[k].remove(Sudoku.Store[i][j][k])
+            except(ValueError, KeyError):
+                pass
+            try:
+                xopt[k+3].remove(Sudoku.Store[i+1][j][k])
+            except(ValueError, KeyError):
+                pass
+            try:
+                xopt[k+6].remove(Sudoku.Store[i+2][j][k])
+            except(ValueError, KeyError):
+                pass
+print(xopt)
