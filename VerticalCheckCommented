@@ -48,41 +48,22 @@ boxes =[i for i in range(9)]
  
 for i in range(9):
     boxes[i] = Box(str(i))
+    
+Sudoku.reshape()
 
 #VERTICAL CHECK
-#all numbers in same column will have same options
+xopt = [[1,2,3,4,5,6,7,8,9] for k in range(9)]
 
-#make list of lists from 1-9 to show initial options for each column
-xopt = [0 for k in range(9)]
+#for the first three columns:
+#loop looks at first number in first row of the first box and removes that number from the full list (i.e. lst1 above) - it does the same with the second and third numbers in that row and they correspond to lists lst2 and lst3 
+#it will then go to the first number of second row of first box and finally third - removing these numbers from the lst1 as well
+# it then jumps to the fourth box (index = 3) since this is the box under the first one and repeats
+
 for i in range(0,9):
-    xopt[i] = {1,2,3,4,5,6,7,8,9}
-
-#for each column, work down the column and remove numbers from the corresponding list in options
-
-#i determines the box - NB. the box under a given box is three boxes after the given one
-for i in range(0,9,3):
-
-    #j determines the row
-    for j in range(0,3):
-    
-        #k determines the column
-        for k in range(0,3):
-        
-            #columns 1-3
-            try:
-                xopt[k].remove(Sudoku.Store[i][j][k])
-            except(ValueError, KeyError):
-                pass
-                
-            #columns 4-6    
-            try:
-                xopt[k+3].remove(Sudoku.Store[i+1][j][k])
-            except(ValueError, KeyError):
-                pass
-                
-            #columns 7-9
-            try:
-                xopt[k+6].remove(Sudoku.Store[i+2][j][k])
-            except(ValueError, KeyError):
-                pass
+    for j in range(0,9):
+            #need to use try and exception because when a square is empty, the code will try and remove a 0 from the original list which would cause an error
+        try:
+                xopt[j].remove(Sudoku.Store[i][j])
+        except(ValueError, KeyError):
+            pass
 print(xopt)
