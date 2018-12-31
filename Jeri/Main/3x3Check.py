@@ -74,7 +74,7 @@ def BoxCheck(boxes):
     # (insert check here)
 
     # for each box perform check
-    count = 0;
+    count = 0
     for box in boxes:
 
         # get list of numbers that have been filled in current box
@@ -99,4 +99,47 @@ def BoxCheck(boxes):
 
     return
 
+def VertCheck(boxes):
+    print("Performing vertical check. New options are:")
+
+    # Generating list of numbers in each column
+    xopt = [[] for k in range(9)]
+
+    for i in range(0, 9):
+        for j in range(0, 9):
+            try:
+                xopt[j].append(Sudoku.Store[i][j])
+            except(ValueError, KeyError):
+                pass
+    # print(xopt)
+    # print(" ")
+
+
+    for i in range(9): # loop for columns, xopt
+        j = int(i / 3) # loop for boxes
+        for k in xopt[i]: # loops through the numbers in the columns
+            for l in range(0,9,3): # loops through the squares in each box
+                try:
+                    boxes[j].options[l + (i % 3)].remove(k)
+                    print(boxes[j].options[l + (i % 3)])
+                except:
+                    print(boxes[j].options[l + (i % 3)])
+                try:
+                    boxes[j + 3].options[l + (i % 3)].remove(k)
+                    print(boxes[j + 3].options[l + (i % 3)])
+                except:
+                    print(boxes[j + 3].options[l + (i % 3)])
+                try:
+                    boxes[j + 6].options[l + (i % 3)].remove(k)
+                    print(boxes[j + 6].options[l + (i % 3)])
+                except:
+                    print(boxes[j + 6].options[l + (i % 3)])
+
+    count = 0
+    for box in boxes:
+        print("Box " + str(count))
+        print(box.options)
+        count += 1
+
+VertCheck(boxes)
 BoxCheck(boxes)
