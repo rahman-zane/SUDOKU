@@ -49,10 +49,10 @@ class Box(Sudoku):
         Sudoku.__init__(self)
         self.name = name
         self.options = {}
+        for i in range(9):
+            self.options[i] = list([1, 2, 3, 4, 5, 6, 7, 8, 9])
         self.grid = np.reshape(self.grid, (3, 3))
         Sudoku.Store.append(self.grid)
-
-
 
 
 # Initialising Boxes
@@ -65,15 +65,6 @@ for i in range(9):
 Sudoku.reshape()
 # Sudoku.displayBoard()
 
-# Initialise default options for every box in each box dictionary
-count = 0;
-for box in boxes:
-    for i in range(9):
-        box.options[i] = list([1,2,3,4,5,6,7,8,9])
-    # print the options for each square in each box
-    print("Box " + str(count))
-    print(box.options)
-    count += 1
 
 # Method to remove options within a 3x3 box
 def BoxCheck(boxes):
