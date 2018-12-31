@@ -1,0 +1,10 @@
+#VERTICAL CHECK
+xopt = [[] for k in range(9)]
+
+for i in range(0,9):
+    for j in range(0,9):
+        try:
+            xopt[j].append(Sudoku.Store[i][j])
+        except(ValueError, KeyError):
+            pass
+print(xopt)
