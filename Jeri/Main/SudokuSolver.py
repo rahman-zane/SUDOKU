@@ -121,19 +121,22 @@ def VertCheck(boxes):
             for l in range(0,9,3): # loops through the squares in each box
                 try:
                     boxes[j].options[l + (i % 3)].remove(k)
-                    print(boxes[j].options[l + (i % 3)])
+                    #print(boxes[j].options[l + (i % 3)])
                 except:
-                    print(boxes[j].options[l + (i % 3)])
+                    #print(boxes[j].options[l + (i % 3)])
+                    pass
                 try:
                     boxes[j + 3].options[l + (i % 3)].remove(k)
-                    print(boxes[j + 3].options[l + (i % 3)])
+                    #print(boxes[j + 3].options[l + (i % 3)])
                 except:
-                    print(boxes[j + 3].options[l + (i % 3)])
+                    #print(boxes[j + 3].options[l + (i % 3)])
+                    pass
                 try:
                     boxes[j + 6].options[l + (i % 3)].remove(k)
-                    print(boxes[j + 6].options[l + (i % 3)])
+                    #print(boxes[j + 6].options[l + (i % 3)])
                 except:
-                    print(boxes[j + 6].options[l + (i % 3)])
+                    #print(boxes[j + 6].options[l + (i % 3)])
+                    pass
 
     count = 0
     for box in boxes:
