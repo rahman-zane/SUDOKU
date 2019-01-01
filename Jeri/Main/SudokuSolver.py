@@ -68,13 +68,12 @@ Sudoku.reshape()
 
 # Method to remove options within a 3x3 box
 def BoxCheck(boxes):
-    print("Performing 3x3 check. New options are:")
+    print("Performing 3x3 check.")
 
     # Check for correct number of boxes
     # (insert check here)
 
     # for each box perform check
-    count = 0
     for box in boxes:
 
         # get list of numbers that have been filled in current box
@@ -93,14 +92,9 @@ def BoxCheck(boxes):
                     # Do nothing
                     pass
 
-        print("Box " + str(count))
-        print(box.options)
-        count += 1
 
-    return
-
-def VertCheck(boxes):
-    print("Performing vertical check. New options are:")
+def ColumnCheck(boxes):
+    print("Performing column check.")
 
     # Generating list of numbers in each column
     xopt = [[] for k in range(9)]
@@ -117,7 +111,7 @@ def VertCheck(boxes):
 
     for i in range(9): # loop for columns, xopt
         j = int(i / 3) # loop for boxes
-        for k in xopt[i]: # loops through the numbers in the columns
+        for k in xopt[i]: # loops through the numbers in the column
             for l in range(0,9,3): # loops through the squares in each box
                 try:
                     boxes[j].options[l + (i % 3)].remove(k)
@@ -138,11 +132,74 @@ def VertCheck(boxes):
                     #print(boxes[j + 6].options[l + (i % 3)])
                     pass
 
+
+def RowCheck(boxes):
+    print("Performing row check.")
+
+    # Generating list of numbers in each row
+    yopt = [[] for k in range(9)]
+
+    for i in range(0, 9):
+        for j in range(0, 9):
+            try:
+                yopt[i].append(Sudoku.Store[i][j])
+            except(ValueError, KeyError):
+                pass
+    # print(yopt)
+    # print(" ")
+
+
+    for i in range(9): # loop for rows, yopt
+        j = (int(i / 3)) * 3 # loop for boxes
+        for k in yopt[i]: # loops through the numbers in the row
+            for l in range(3): # loops through the squares in each box
+                try:
+                    boxes[j].options[l + ((i % 3) * 3)].remove(k)
+                    #print(boxes[j].options[l + (i % 3)])
+                except:
+    #                #print(boxes[j].options[l + (i % 3)])
+                    pass
+                try:
+                    boxes[j + 1].options[l + ((i % 3) * 3)].remove(k)
+    #                #print(boxes[j + 3].options[l + (i % 3)])
+                except:
+    #                #print(boxes[j + 3].options[l + (i % 3)])
+                    pass
+                try:
+                    boxes[j + 2].options[l + ((i % 3) * 3)].remove(k)
+    #                #print(boxes[j + 6].options[l + (i % 3)])
+                except:
+                    #print(boxes[j + 6].options[l + (i % 3)])
+                    pass
+
+
+def ClearFilledOptions(boxes):
+    print("Removing options for filled in boxes.")
+    for box in boxes:
+
+        # get list of numbers that have been filled in current box
+        numbers = np.reshape(box.grid, (1, 9))
+        numbers = list(numbers[0])
+
+        # if the square contains a number empty its options
+        for i in range(9):
+            if numbers[i] != 0:
+                box.options[i] = []
+
+
+
+def PrintOptions(boxes):
     count = 0
     for box in boxes:
         print("Box " + str(count))
         print(box.options)
         count += 1
 
-VertCheck(boxes)
+
+# First run of all checks to create options for unfilled squares
+ColumnCheck(boxes)
+RowCheck(boxes)
 BoxCheck(boxes)
+ClearFilledOptions(boxes)
+PrintOptions(boxes)
+Sudoku.displayBoard()
