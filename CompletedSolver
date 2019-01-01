@@ -1,0 +1,142 @@
+import numpy as np
+import time
+
+class Sudoku ():
+    
+    Store =[]
+
+    def __init__(self):
+
+        self.grid = input("input sudoku numbers, plese use 0 when empty : ")
+        self.grid = [int(i) for i in self.grid]
+        
+    def reshape():
+        if len(Sudoku.Store) >8:
+            count = 0
+            g=[]
+            k=[]
+            l=[]
+
+            for  i in Sudoku.Store:
+                if count == 0:
+                    g = i
+                elif count == 3:
+                    k = i
+                elif count == 6:
+                    l = i
+                count+=1    
+
+                if 1<count <= 3:
+                    g=np.concatenate((g,i), axis=1)
+                elif 4 < count <= 6:
+                    k  = np.concatenate((k,i), axis=1)
+                elif count > 7:
+                    l =np.concatenate((l,i), axis=1)
+
+            Sudoku.Store = np.concatenate((g,k,l), axis=0)
+        else:
+            print("Sudoku not complete")
+
+class Box(Sudoku):  
+    def __init__ (self,name):
+        Sudoku.__init__(self)
+        self.name= name
+        self.options = [[{1,2,3,4,5,6,7,8,9} for i in range(3)] for j in range(3)]
+        self.grid = np.reshape(self.grid,(3,3))
+        Sudoku.Store.append(self.grid)
+
+
+boxes =[i for i in range(9)]
+for i in range(9):
+    boxes[i] = Box(str(i))
+    
+#Vertical Check
+def VertCheck(boxes):
+    xopt = [{1,2,3,4,5,6,7,8,9} for k in range(9)]
+    
+    for i in range(0,9,3):
+        for j in range(0,3):
+            for k in range(0,3):
+                try:
+                    xopt[k].remove(Sudoku.Store[i][j][k])
+                except(ValueError, KeyError):
+                    pass
+                try:
+                    xopt[k+3].remove(Sudoku.Store[i+1][j][k])
+                except(ValueError, KeyError):
+                    pass
+                try:
+                    xopt[k+6].remove(Sudoku.Store[i+2][j][k])
+                except(ValueError, KeyError):
+                    pass
+
+    for i in range(0,9,3):
+        for j in range(3):
+            for k in range(3):
+                boxes[i].options[k][j] = boxes[i].options[k][j] & xopt[j]
+                boxes[i+1].options[k][j] = boxes[i+1].options[k][j] & xopt[j+3]
+                boxes[i+2].options[k][j] = boxes[i+2].options[k][j] & xopt[j+6]
+
+#HORIZONTAL CHECK
+def HorizCheck(boxes):
+    yopt = [{1,2,3,4,5,6,7,8,9} for k in range(0,9)]
+
+    for i in range(0,3):
+        for j in range(0,3):
+            for k in range(0,3):
+                try:
+                    yopt[k].remove(Sudoku.Store[i][k][j])
+                except(ValueError,KeyError):
+                    pass
+                try:
+                    yopt[k+3].remove(Sudoku.Store[i+3][k][j])
+                except(ValueError,KeyError):
+                    pass
+                try:
+                    yopt[k+6].remove(Sudoku.Store[i+6][k][j])
+                except(ValueError,KeyError):
+                    pass
+
+    for i in range(0,9,3):
+        for j in range(3):
+            for k in range(3):
+                boxes[i].options[j][k] = boxes[i].options[j][k] & yopt[j+i]
+                boxes[i+1].options[j][k] = boxes[i+1].options[j][k] & yopt[j+i]
+                boxes[i+2].options[j][k] = boxes[i+2].options[j][k] & yopt[j+i]
+
+#BOX CHECKS
+def BoxCheck(boxes):
+    boxopt = [{1,2,3,4,5,6,7,8,9} for k in range(0,9)]
+
+    for i in range(0,3):
+        for j in range(0,3):
+            for k in range(0,9):
+                try:
+                    boxopt[k].remove(Sudoku.Store[k][i][j])
+                except(ValueError,KeyError):
+                    pass
+
+    for i in range(0,9):
+        for j in range(3):
+            for k in range(3):
+                boxes[i].options[j][k] = boxes[i].options[j][k] & boxopt[i]
+
+start = time.time()
+
+for i in range(81):
+    VertCheck(boxes)
+    HorizCheck(boxes)
+    BoxCheck(boxes)
+    for i in range(9):
+        for j in range(3):
+            for k in range(3):
+                if Sudoku.Store[i][j][k] == 0:
+                    if len(boxes[i].options[j][k]) == 1:
+                        try:
+                            Sudoku.Store[i][j][k] = boxes[i].options[j][k].pop()
+                        except(KeyError):
+                            pass               
+Sudoku.reshape()
+print(Sudoku.Store)
+
+print('Solution found in {} seconds'.format(time.time()-start))
