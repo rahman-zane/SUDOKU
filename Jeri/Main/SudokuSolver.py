@@ -55,18 +55,7 @@ class Box(Sudoku):
         Sudoku.Store.append(self.grid)
 
 
-# Initialising Boxes
-boxes = [i for i in range(9)]
-for i in range(9):
-    boxes[i] = Box(str(i))
-    #print(boxes[i].grid)
-
-# Reshape Sudoku store and print
-Sudoku.reshape()
-# Sudoku.displayBoard()
-
-
-# Method to remove options within a 3x3 box
+# Function to remove options within a 3x3 box
 def BoxCheck(boxes):
     print("Performing 3x3 check.")
 
@@ -92,7 +81,7 @@ def BoxCheck(boxes):
                     # Do nothing
                     pass
 
-
+# Function to remove options along column
 def ColumnCheck(boxes):
     print("Performing column check.")
 
@@ -132,7 +121,7 @@ def ColumnCheck(boxes):
                     #print(boxes[j + 6].options[l + (i % 3)])
                     pass
 
-
+# Function to remove options along row
 def RowCheck(boxes):
     print("Performing row check.")
 
@@ -172,7 +161,7 @@ def RowCheck(boxes):
                     #print(boxes[j + 6].options[l + (i % 3)])
                     pass
 
-
+# Function to remove options for filled squares
 def ClearFilledOptions(boxes):
     print("Removing options for filled in boxes.")
     for box in boxes:
@@ -186,8 +175,7 @@ def ClearFilledOptions(boxes):
             if numbers[i] != 0:
                 box.options[i] = []
 
-
-
+# Function to show options DIctionary
 def PrintOptions(boxes):
     count = 0
     for box in boxes:
@@ -196,6 +184,14 @@ def PrintOptions(boxes):
         count += 1
 
 
+# Initialising Boxes
+boxes = [i for i in range(9)]
+for i in range(9):
+    boxes[i] = Box(str(i))
+
+# Reshape Sudoku store and print
+Sudoku.reshape()
+
 # First run of all checks to create options for unfilled squares
 ColumnCheck(boxes)
 RowCheck(boxes)
@@ -203,3 +199,4 @@ BoxCheck(boxes)
 ClearFilledOptions(boxes)
 PrintOptions(boxes)
 Sudoku.displayBoard()
+
