@@ -1,15 +1,16 @@
 import numpy as np
-import time
-
+import time #use to time how long it takes to solve
+#create class that describes the full sudoku
 class Sudoku ():
     
     Store =[]
 
     def __init__(self):
-
+    #insert sudoku, box by box to make up 9 arrays
         self.grid = input("input sudoku numbers, plese use 0 when empty : ")
         self.grid = [int(i) for i in self.grid]
-        
+ 
+    #reshape arrays  to get in format of actual sudoku
     def reshape():
         if len(Sudoku.Store) >8:
             count = 0
@@ -41,6 +42,8 @@ class Box(Sudoku):
     def __init__ (self,name):
         Sudoku.__init__(self)
         self.name= name
+        #asign each individual an options array thar shows which possible integers could potentially be the end value of that box
+        #originally any number could be a possibility so use 1-9
         self.options = [[{1,2,3,4,5,6,7,8,9} for i in range(3)] for j in range(3)]
         self.grid = np.reshape(self.grid,(3,3))
         Sudoku.Store.append(self.grid)
@@ -51,6 +54,7 @@ for i in range(9):
     boxes[i] = Box(str(i))
     
 #Vertical Check
+#check what integers already occupy the column and remove these from the options box
 def VertCheck(boxes):
     xopt = [{1,2,3,4,5,6,7,8,9} for k in range(9)]
     
@@ -78,6 +82,7 @@ def VertCheck(boxes):
                 boxes[i+2].options[k][j] = boxes[i+2].options[k][j] & xopt[j+6]
 
 #HORIZONTAL CHECK
+#check what integers already occupy the row and remove these from the options box
 def HorizCheck(boxes):
     yopt = [{1,2,3,4,5,6,7,8,9} for k in range(0,9)]
 
@@ -105,6 +110,7 @@ def HorizCheck(boxes):
                 boxes[i+2].options[j][k] = boxes[i+2].options[j][k] & yopt[j+i]
 
 #BOX CHECKS
+#check what integers already occupy the box and remove these from the options box
 def BoxCheck(boxes):
     boxopt = [{1,2,3,4,5,6,7,8,9} for k in range(0,9)]
 
@@ -123,6 +129,7 @@ def BoxCheck(boxes):
 
 start = time.time()
 
+#once all functions are defined, run them continously until only one integer remains in the option box for each individual square, and assign this to the square
 for i in range(81):
     VertCheck(boxes)
     HorizCheck(boxes)
