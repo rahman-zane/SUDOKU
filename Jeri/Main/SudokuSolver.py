@@ -6,7 +6,7 @@ import numpy as np
 # Creating the Sudoku Class
 class Sudoku():
     Store = []
-    StoreSolved = []
+
 
     def clearStore():
         Sudoku.Store = list([])
