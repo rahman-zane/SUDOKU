@@ -6,6 +6,10 @@ import numpy as np
 # Creating the Sudoku Class
 class Sudoku():
     Store = []
+    StoreSolved = []
+
+    def clearStore():
+        Sudoku.Store = list([])
 
     def __init__(self):
         self.grid = input("Input Sudoku numbers (3x3 box, from left to right), please use 0 when empty : ")
@@ -175,7 +179,7 @@ def ClearFilledOptions(boxes):
             if numbers[i] != 0:
                 box.options[i] = []
 
-# Function to show options DIctionary
+# Function to show options Dictionary
 def PrintOptions(boxes):
     count = 0
     for box in boxes:
@@ -184,13 +188,79 @@ def PrintOptions(boxes):
         count += 1
 
 
+
+
+
+def SolveSudoku(boxes):
+    sudokuNotSolved = True
+    # check if Sudoku solved
+    while(sudokuNotSolved):
+
+        Sudoku.clearStore()
+
+        for box in boxes:
+
+            # get list of numbers that have been filled in current box
+            numbers = np.reshape(box.grid, (1, 9))
+            numbers = list(numbers[0])
+
+            # if the squares options contains only 1 number fill square
+            for i in range(9):
+                if len(box.options[i]) == 1:
+                    numbers[i] = box.options[i][0]
+
+            # put numbers back into box
+            box.grid = np.reshape(numbers, (3, 3))
+            Sudoku.Store.append(box.grid)
+
+        #print(Sudoku.Store)
+        Sudoku.reshape()
+
+        # Check if sudoku solved
+        # sudokuNotSolved == False
+        count = 0;
+        for row in Sudoku.Store:
+            for number in row:
+                #print("Solve check")
+                #print(number)
+                if number == 0:
+                    count += 1;
+
+        if count == 0:
+            print("Solution")
+            Sudoku.displayBoard()
+            exit()
+
+
+
+        ColumnCheck(boxes)
+        RowCheck(boxes)
+        BoxCheck(boxes)
+        ClearFilledOptions(boxes)
+        print("New Board")
+        Sudoku.displayBoard()
+        print("New Options")
+        PrintOptions(boxes)
+
+
+
+    #exit()
+
+
+
+
+
+
 # Initialising Boxes
 boxes = [i for i in range(9)]
 for i in range(9):
     boxes[i] = Box(str(i))
 
 # Reshape Sudoku store and print
+print("Reshape Sudoku store and print")
+print(Sudoku.Store)
 Sudoku.reshape()
+print(Sudoku.Store)
 
 # First run of all checks to create options for unfilled squares
 ColumnCheck(boxes)
@@ -200,3 +270,12 @@ ClearFilledOptions(boxes)
 PrintOptions(boxes)
 Sudoku.displayBoard()
 
+#for box in boxes:
+    #print(box.options[1][0])
+
+SolveSudoku(boxes)
+
+#print("0")
+#print(Sudoku.Store[0])
+#print("1")
+#print(Sudoku.Store[1])
